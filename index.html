@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<!--
+  ════════════════════════════════════════════════════════════
+  JUBIN JOSEPH — PORTFOLIO  (index3.html)
+  ════════════════════════════════════════════════════════════
+
+  FILES
+  ─────
+  index3.html  →  This file. Structure and content only.
+  styles3.css  →  All visual styling, colours, layout, animations.
+  script3.js   →  Interactive behaviour (particles, typing, etc.)
+
+  QUICK EDITS CHEATSHEET
+  ──────────────────────
+  Your name / tagline      →  <section id="hero">
+  Nav links                →  <ul class="nav-links">
+  Typing roles list        →  ROLES array in script3.js (line ~175)
+  CV file                  →  Replace "Jubin_Joseph_CV.pdf" with your PDF filename
+                               and drop the PDF into this portfolio/ folder.
+  Currently building       →  .building-card in the About section
+  Experience cards         →  <section id="experience">  (copy a .exp-card block)
+  Project cards            →  <section id="projects">    (copy a .bento-card block)
+  Education / certs        →  <section id="education">
+  Contact form endpoint    →  FORMSPREE_ID in script3.js (line ~218)
+  Social links             →  .hero-icons in hero + .contact-links in contact
+
+  DARK / LIGHT MODE
+  ─────────────────
+  Default is "dark". Toggle button is in the nav bar (sun/moon icon).
+  The <html> element receives  data-theme="light"  via JavaScript.
+  All colour variables live in styles3.css :root and [data-theme="light"].
+  Preference is saved in localStorage so it persists on reload.
+
+  FONTS
+  ─────
+  Space Grotesk — headings (--font-h)   technical, geometric, distinctive
+  Inter          — body text (--font-b)  clean, highly readable
+
+  OPEN GRAPH (social preview)
+  ───────────────────────────
+  Update og:url with your live domain.
+  Create a 1200×630 px image named og-image.jpg in this folder.
+  Once the site is hosted, social shares on LinkedIn / WhatsApp will
+  show the rich preview card automatically.
+  ════════════════════════════════════════════════════════════
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jubin Joseph — Automation Engineer</title>
+  <meta name="description" content="Graduate Automation Engineer & MEngSc student at UCD Dublin. PLC programming, BMS, HVAC control systems.">
+
+  <!-- ── Open Graph / Social Preview ──────────────────────────────
+       Controls how the page appears when shared on LinkedIn,
+       WhatsApp, Slack, iMessage, etc.
+       ACTION REQUIRED:
+       1. Replace the og:url value with your actual domain.
+       2. Create a 1200×630 px image → save as og-image.jpg here.
+       3. Update the og:image path to its public URL.
+       ─────────────────────────────────────────────────────────── -->
+  <meta property="og:type"         content="website">
+  <meta property="og:url"          content="https://jubinjoseph.dev/">
+  <meta property="og:title"        content="Jubin Joseph — Automation Engineer">
+  <meta property="og:description"  content="Graduate Automation Engineer & MEngSc at UCD Dublin. PLC programming, BMS, HVAC control systems.">
+  <meta property="og:image"        content="https://jubinjoseph.dev/og-image.jpg">
+  <!-- Twitter / X card (also used by other platforms) -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Jubin Joseph — Automation Engineer">
+  <meta name="twitter:description" content="Graduate Automation Engineer & MEngSc at UCD Dublin.">
+  <meta name="twitter:image"       content="https://jubinjoseph.dev/og-image.jpg">
+
+  <!-- ── Google Fonts ──────────────────────────────────────────────
+       Space Grotesk : all headings  (--font-h)
+       Inter          : all body text (--font-b)
+       ─────────────────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles3.css">
+</head>
+
+<body>
+
+  <!-- ════════════════════════════════════════════════════════
+       PAGE LOADING OVERLAY
+       Covers the screen while fonts/assets load.
+       Shows the JJ. brand mark + a filling gradient bar.
+       JavaScript removes the .hidden class on window.load.
+       ════════════════════════════════════════════════════════ -->
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-inner">
+      <span class="loader-brand">JJ<span class="loader-dot">.</span></span>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       BACKGROUND LAYERS  (z-index: 0, behind everything)
+       ─ bgCanvas   : animated particle network (JS canvas)
+       ─ .aurora    : slow drifting colour blobs (CSS only)
+       ─ .grain-svg : subtle film-grain texture overlay
+       ════════════════════════════════════════════════════════ -->
+  <canvas id="bgCanvas"></canvas>
+
+  <div class="aurora" aria-hidden="true">
+    <!-- Blob colours / sizes are in styles3.css .b1–.b4 -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+
+  <svg class="grain-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#grain)"/>
+  </svg>
+
+  <!-- Thin gradient progress bar — width updated by JS on scroll -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Custom cursor (hidden on touch devices via CSS) -->
+  <div class="c-dot"  id="cDot"></div>
+  <div class="c-ring" id="cRing"></div>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       NAVIGATION BAR
+       ─ Becomes opaque (.stuck) when scrollY > 50 px
+       ─ Collapses to hamburger on mobile (< 768 px)
+       Elements: brand · nav-links · theme-toggle · hire-btn · hamburger
+       ════════════════════════════════════════════════════════ -->
+  <nav id="nav">
+    <div class="nav-inner">
+
+      <a href="#hero" class="nav-brand">JJ<span class="brand-dot">.</span></a>
+
+      <!-- Desktop links — add/remove <li> items to change sections -->
+      <ul class="nav-links" role="list">
+        <li><a href="#about"      class="nl">About</a></li>
+        <li><a href="#experience" class="nl">Experience</a></li>
+        <li><a href="#projects"   class="nl">Projects</a></li>
+        <li><a href="#contact"    class="nl">Contact</a></li>
+      </ul>
+
+      <!-- Dark ↔ Light mode toggle (JS + localStorage) -->
+      <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle colour theme">
+        <!-- Sun icon → shown in dark mode (click to switch to light) -->
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41
+                   M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <!-- Moon icon → shown in light mode (click to switch to dark) -->
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+
+      <a href="mailto:jubinjoseph2002@gmail.com" class="nav-hire magnetic">Hire me</a>
+
+      <button class="mob-btn" id="mobBtn" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+
+    <div class="mob-nav" id="mobNav">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       HERO SECTION
+       Full-viewport opening section.
+       ─ .hero-chip    : availability badge with pulse dot
+       ─ .hero-name    : large display name (gradient on last name)
+       ─ .hero-role    : typewriter cycling text (edit ROLES in JS)
+       ─ .hero-sub     : short bio line
+       ─ .hero-actions : CTA buttons + social icons
+       ─ .scroll-hint  : animated scroll indicator
+       ════════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+
+      <div class="hero-chip reveal">
+        <span class="chip-pulse"></span>
+        Open to opportunities · Dublin, Ireland
+      </div>
+
+      <h1 class="hero-name">
+        <span class="hn-first reveal d1">Jubin</span>
+        <span class="hn-last  reveal d2">Joseph<span class="accent-dot">.</span></span>
+      </h1>
+
+      <p class="hero-role reveal d3">
+        <span class="role-dash">—&nbsp;</span>
+        <span id="typedText"></span><span class="type-cur" aria-hidden="true">|</span>
+      </p>
+
+      <p class="hero-sub reveal d4">
+        Graduate Automation Engineer · MEngSc @ UCD<br>
+        Building intelligent control systems for the future.
+      </p>
+
+      <div class="hero-actions reveal d5">
+        <a href="#contact" class="btn-glowing magnetic">
+          Let's talk
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+
+        <a href="#projects" class="btn-ghost magnetic">View work</a>
+
+        <!-- ── CV Download ─────────────────────────────────────────
+             Place your CV PDF in this folder and update the href.
+             The `download` attribute triggers a save dialog.       -->
+        <a href="Jubin_Joseph_CV.pdf" download class="btn-cv magnetic">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download CV
+        </a>
+
+        <div class="hero-icons">
+          <a href="https://github.com/Jubin02" target="_blank" rel="noopener noreferrer"
+             aria-label="GitHub" class="icon-btn magnetic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61
+                       c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0
+                       19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07
+                       5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37
+                       3.37 0 0 0 9 18.13V22"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/jubin-j-173b61137" target="_blank" rel="noopener noreferrer"
+             aria-label="LinkedIn" class="icon-btn magnetic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7
+                       a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       MARQUEE / SKILLS TICKER
+       Infinite horizontal scroll.  Content is doubled in HTML
+       for a seamless loop (CSS translateX(-50%)).
+       Edit <span> text to add / remove skills.
+       ════════════════════════════════════════════════════════ -->
+  <div class="marquee-section" aria-hidden="true">
+    <div class="marquee-fade-l"></div>
+    <div class="marquee-fade-r"></div>
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span>PLC Programming</span><span class="msep">✦</span>
+        <span>Siemens TIA Portal</span><span class="msep">✦</span>
+        <span>HVAC Control</span><span class="msep">✦</span>
+        <span>BMS</span><span class="msep">✦</span>
+        <span>Control Logic Design</span><span class="msep">✦</span>
+        <span>System Integration</span><span class="msep">✦</span>
+        <span>Allen-Bradley</span><span class="msep">✦</span>
+        <span>Schneider Electric</span><span class="msep">✦</span>
+        <span>Embedded Systems</span><span class="msep">✦</span>
+        <span>ARM Architecture</span><span class="msep">✦</span>
+        <span>Generative AI</span><span class="msep">✦</span>
+        <span>IoT Systems</span><span class="msep">✦</span>
+        <span>Commissioning</span><span class="msep">✦</span>
+        <!-- duplicate set — required for seamless loop -->
+        <span>PLC Programming</span><span class="msep">✦</span>
+        <span>Siemens TIA Portal</span><span class="msep">✦</span>
+        <span>HVAC Control</span><span class="msep">✦</span>
+        <span>BMS</span><span class="msep">✦</span>
+        <span>Control Logic Design</span><span class="msep">✦</span>
+        <span>System Integration</span><span class="msep">✦</span>
+        <span>Allen-Bradley</span><span class="msep">✦</span>
+        <span>Schneider Electric</span><span class="msep">✦</span>
+        <span>Embedded Systems</span><span class="msep">✦</span>
+        <span>ARM Architecture</span><span class="msep">✦</span>
+        <span>Generative AI</span><span class="msep">✦</span>
+        <span>IoT Systems</span><span class="msep">✦</span>
+        <span>Commissioning</span><span class="msep">✦</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       ABOUT  (#about)
+       Two-column grid: text left, stats right.
+       Below the grid: "Currently building" full-width card.
+
+       STAT COUNTERS
+         data-target  : number to count up to
+         data-suffix  : character appended (e.g. "+")
+         Animation fires when the card enters the viewport.
+       ════════════════════════════════════════════════════════ -->
+  <section class="section" id="about">
+    <div class="container">
+      <p class="sec-label reveal">01 / About</p>
+
+      <div class="about-grid">
+        <div class="about-left">
+          <h2 class="sec-heading reveal d1">
+            Engineer by training,<br><em>builder by nature.</em>
+          </h2>
+          <p class="about-p reveal d2">
+            Graduate Automation Engineer based in <strong>Dublin, Ireland</strong>, pursuing an
+            MEngSc at University College Dublin. I bring together industrial control systems,
+            PLC programming, and a growing fluency in AI to design efficient automation solutions.
+          </p>
+          <p class="about-p reveal d3">
+            At Siemens I programmed and deployed control logic for HVAC and BMS systems across
+            multiple live sites. I've worked across Siemens, Allen-Bradley, and Schneider
+            platforms — and I hold a GenAI Associate Certification from DeepLearning.AI.
+          </p>
+        </div>
+
+        <div class="about-right">
+          <div class="stat-block glass-card reveal d2">
+            <span class="stat-num" data-target="3"  data-suffix="+">0</span>
+            <span class="stat-lbl">Years automation experience</span>
+          </div>
+          <div class="stat-block glass-card reveal d3">
+            <span class="stat-num" data-target="3"  data-suffix="">0</span>
+            <span class="stat-lbl">Industry roles &amp; internships</span>
+          </div>
+          <div class="stat-block glass-card reveal d2">
+            <span class="stat-num" data-target="2"  data-suffix="">0</span>
+            <span class="stat-lbl">Professional certifications</span>
+          </div>
+          <div class="stat-block glass-card reveal d3">
+            <span class="stat-num" data-target="30" data-suffix="+">0</span>
+            <span class="stat-lbl">Volunteers led @ UCD Media</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Currently Building ──────────────────────────────────────
+           Update this card whenever you start a new project.
+           ─ .building-title : project / thing you're working on
+           ─ .building-desc  : one or two sentences explaining it
+           ─ .building-tags  : add / remove <span> tags freely
+           ──────────────────────────────────────────────────────── -->
+      <div class="building-card glass-card reveal d4">
+        <div class="building-header">
+          <span class="chip-pulse"></span>
+          <span class="building-label">Currently building</span>
+        </div>
+        <div class="building-body">
+          <h3 class="building-title">AI-Augmented BMS Optimisation</h3>
+          <p class="building-desc">
+            MEngSc thesis research — exploring how machine learning can optimise HVAC
+            scheduling logic in Building Management Systems to reduce energy consumption
+            without compromising occupant comfort.
+          </p>
+          <div class="building-tags">
+            <span>Python</span>
+            <span>Machine Learning</span>
+            <span>Siemens BMS</span>
+            <span>MEngSc Thesis</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       EXPERIENCE  (#experience)
+       3-column card grid on desktop, 2 on tablet, 1 on mobile.
+
+       TO ADD A NEW ROLE:
+       Copy one .exp-card block, paste after the last card,
+       increment .exp-num, update all the text fields.
+       ════════════════════════════════════════════════════════ -->
+  <section class="section" id="experience">
+    <div class="container">
+      <p class="sec-label reveal">02 / Experience</p>
+      <h2 class="sec-heading reveal d1">Where I've worked</h2>
+
+      <div class="exp-grid">
+
+        <div class="exp-card glass-card tilt-card reveal d1">
+          <div class="exp-num">01</div>
+          <div class="exp-meta">
+            <span class="exp-period">2024 – Present</span>
+            <span class="exp-badge">Full-time</span>
+          </div>
+          <h3 class="exp-role">Graduate Automation Engineer</h3>
+          <p class="exp-co">Siemens Technology &amp; Services</p>
+          <ul class="exp-pts">
+            <li>Programmed control logic for HVAC and BMS deployments</li>
+            <li>Worked with Siemens PXCC, PXCM, and DxR series controllers</li>
+            <li>Supported system commissioning and live troubleshooting</li>
+          </ul>
+        </div>
+
+        <div class="exp-card glass-card tilt-card reveal d2">
+          <div class="exp-num">02</div>
+          <div class="exp-meta">
+            <span class="exp-period">Summer 2023</span>
+            <span class="exp-badge">Internship</span>
+          </div>
+          <h3 class="exp-role">Engineering Intern</h3>
+          <p class="exp-co">Titan Engineering &amp; Automation</p>
+          <ul class="exp-pts">
+            <li>Developed PLC programs for robotic systems and assembly lines</li>
+            <li>Worked across Siemens, Allen-Bradley, and Schneider platforms</li>
+          </ul>
+        </div>
+
+        <div class="exp-card glass-card tilt-card reveal d3">
+          <div class="exp-num">03</div>
+          <div class="exp-meta">
+            <span class="exp-period">Summer 2022</span>
+            <span class="exp-badge">Internship</span>
+          </div>
+          <h3 class="exp-role">Engineering Intern</h3>
+          <p class="exp-co">Ashok Leyland Ltd</p>
+          <ul class="exp-pts">
+            <li>Supported industrial robotics and automated assembly systems</li>
+            <li>Gained exposure to vehicle manufacturing automation workflows</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       PROJECTS BENTO  (#projects)
+       Asymmetric grid: large card left (2fr), two stacked right (1fr).
+
+       .bento-hero has an animated conic-gradient border using
+       the CSS Houdini @property --angle trick. Requires a modern
+       browser (Chrome 85+, Firefox 128+, Safari 16.4+).
+
+       TO ADD MORE PROJECTS:
+       Add a new .bento-card div after the last one.
+       ════════════════════════════════════════════════════════ -->
+  <section class="section" id="projects">
+    <div class="container">
+      <p class="sec-label reveal">03 / Projects</p>
+      <h2 class="sec-heading reveal d1">Things I've built</h2>
+
+      <div class="bento">
+
+        <div class="bento-card bento-hero glass-card reveal d1">
+          <div class="bento-glow"></div>
+          <div class="bento-inner">
+            <div class="btags"><span>Siemens</span><span>HVAC</span><span>BMS</span></div>
+            <h3>BMS Control System Deployment</h3>
+            <p>End-to-end deployment of Building Management System control logic using
+               Siemens PXCC and PXCM controllers — covering HVAC automation, live
+               commissioning, and multi-site fault troubleshooting.</p>
+            <p class="bento-sub">Siemens Technology &amp; Services · Professional Work</p>
+          </div>
+        </div>
+
+        <div class="bento-card glass-card tilt-card reveal d2">
+          <div class="bento-inner">
+            <div class="btags"><span>Microcontroller</span><span>Robotics</span><span>Hackathon</span></div>
+            <h3>Autonomous Vehicle Prototype</h3>
+            <p>Microcontroller-based autonomous navigation with sensor fusion and
+               real-time obstacle avoidance logic.</p>
+            <a href="https://github.com/Jubin02" target="_blank" rel="noopener noreferrer" class="bento-link">
+              View on GitHub
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="bento-card glass-card tilt-card reveal d3">
+          <div class="bento-inner">
+            <div class="btags"><span>PLC</span><span>Allen-Bradley</span><span>Robotics</span></div>
+            <h3>Robotic Assembly Automation</h3>
+            <p>PLC programs for robotic systems on high-speed manufacturing lines
+               across multiple controller platforms.</p>
+            <p class="bento-sub">Titan Engineering · Industry Internship</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       EDUCATION & CERTIFICATIONS  (#education)
+       Two-column grid. Stacks to one column on tablet/mobile.
+       Left: degrees  |  Right: certifications
+       ════════════════════════════════════════════════════════ -->
+  <section class="section" id="education">
+    <div class="container">
+      <div class="edu-certs-grid">
+
+        <div>
+          <p class="sec-label reveal">04 / Education</p>
+          <h2 class="sec-heading reveal d1">Academic path</h2>
+          <div class="edu-list">
+            <div class="edu-item glass-card reveal d2">
+              <div class="edu-yr">2025 – Present</div>
+              <h3>MEngSc Electronic &amp; Computer Engineering</h3>
+              <p>University College Dublin · Ireland</p>
+            </div>
+            <div class="edu-item glass-card reveal d3">
+              <div class="edu-yr">2020 – 2024</div>
+              <h3>BTech, Electronics &amp; Communication Engineering</h3>
+              <p>CHRIST University · Bangalore, India</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="sec-label reveal d1">05 / Certifications</p>
+          <h2 class="sec-heading reveal d2">Credentials</h2>
+          <div class="cert-list">
+            <div class="cert-item glass-card reveal d3">
+              <span class="cert-star">✦</span>
+              <div>
+                <h3>GenAI Associate Certification</h3>
+                <p>DeepLearning.AI &amp; Vanderbilt University</p>
+              </div>
+            </div>
+            <div class="cert-item glass-card reveal d4">
+              <span class="cert-star">✦</span>
+              <div>
+                <h3>Embedded System Design with ARM</h3>
+                <p>IIT Kharagpur / NPTEL</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       CONTACT  (#contact)
+       Two-column layout:
+       ─ Left  : heading, sub text, email link, social links
+       ─ Right : contact form (powered by Formspree)
+
+       FORMSPREE SETUP:
+       1. Go to formspree.io and create a free account.
+       2. Create a new form — copy your form ID (looks like "xpwzabcd").
+       3. Paste it into FORMSPREE_ID in script3.js.
+       The form submits via fetch (no page reload).
+       Free tier: 50 submissions / month.
+       ════════════════════════════════════════════════════════ -->
+  <section class="contact-sec" id="contact">
+    <div class="container">
+      <p class="sec-label reveal">06 / Contact</p>
+
+      <div class="contact-grid">
+
+        <!-- Left column: heading + links -->
+        <div class="contact-info reveal d1">
+          <h2 class="contact-heading">
+            Let's work<br>
+            <span class="gradient-text">together.</span>
+          </h2>
+          <p class="contact-sub">
+            Open to graduate engineering roles in Ireland &amp; EU.<br>
+            Always happy to connect and build something great.
+          </p>
+          <!-- Update both the href and the visible email text if your address changes -->
+          <a href="mailto:jubinjoseph2002@gmail.com" class="contact-cta magnetic">
+            jubinjoseph2002@gmail.com
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+          <div class="contact-links">
+            <a href="https://linkedin.com/in/jubin-j-173b61137" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            <span>·</span>
+            <a href="https://github.com/Jubin02" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          </div>
+        </div>
+
+        <!-- Right column: contact form
+             JS handles submission and shows status messages.
+             See script3.js → Contact Form section for the logic. -->
+        <form class="contact-form glass-card reveal d2" id="contactForm" novalidate>
+          <h3 class="form-heading">Send a message</h3>
+
+          <div class="form-field">
+            <label for="cfName">Name</label>
+            <input type="text" id="cfName" name="name"
+                   placeholder="Your name" required autocomplete="name">
+          </div>
+
+          <div class="form-field">
+            <label for="cfEmail">Email</label>
+            <input type="email" id="cfEmail" name="email"
+                   placeholder="your@email.com" required autocomplete="email">
+          </div>
+
+          <div class="form-field">
+            <label for="cfMessage">Message</label>
+            <textarea id="cfMessage" name="message" rows="5"
+                      placeholder="Tell me about the opportunity..." required></textarea>
+          </div>
+
+          <button type="submit" class="form-submit" id="formSubmit">
+            Send message
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+
+          <!-- Status message injected here by JS after submission -->
+          <p class="form-status" id="formStatus" aria-live="polite"></p>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       FOOTER
+       Three-column: copyright · live Dublin time · tagline
+       The Dublin time updates every second via JS.
+       ════════════════════════════════════════════════════════ -->
+  <footer class="footer2">
+    <div class="container">
+      <span>© 2025 Jubin Joseph</span>
+      <!-- Live time — updated by JS using Europe/Dublin timezone -->
+      <span class="footer-time">
+        <span class="time-pulse"></span>
+        <span id="dublinTime">--:--</span>&nbsp;· Dublin
+      </span>
+      <span>Built from scratch</span>
+    </div>
+  </footer>
+
+  <script src="script3.js"></script>
+
+</body>
+</html>

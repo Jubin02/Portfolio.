@@ -17,7 +17,7 @@
   Nav links                →  <ul class="nav-links">
   Typing roles list        →  ROLES array in script3.js (line ~175)
   CV file                  →  Replace "Jubin_Joseph_CV.pdf" with your PDF filename
-                               and drop the PDF into this portfolio/ folder.
+                              and drop the PDF into this portfolio/ folder.
   Currently building       →  .building-card in the About section
   Experience cards         →  <section id="experience">  (copy a .exp-card block)
   Project cards            →  <section id="projects">    (copy a .bento-card block)
@@ -52,13 +52,13 @@
   <meta name="description" content="Graduate Automation Engineer & MEngSc student at UCD Dublin. PLC programming, BMS, HVAC control systems.">
 
   <!-- ── Open Graph / Social Preview ──────────────────────────────
-       Controls how the page appears when shared on LinkedIn,
-       WhatsApp, Slack, iMessage, etc.
-       ACTION REQUIRED:
-       1. Replace the og:url value with your actual domain.
-       2. Create a 1200×630 px image → save as og-image.jpg here.
-       3. Update the og:image path to its public URL.
-       ─────────────────────────────────────────────────────────── -->
+        Controls how the page appears when shared on LinkedIn,
+        WhatsApp, Slack, iMessage, etc.
+        ACTION REQUIRED:
+        1. Replace the og:url value with your actual domain.
+        2. Create a 1200×630 px image → save as og-image.jpg here.
+        3. Update the og:image path to its public URL.
+        ─────────────────────────────────────────────────────────── -->
   <meta property="og:type"         content="website">
   <meta property="og:url"          content="https://jubinjoseph.dev/">
   <meta property="og:title"        content="Jubin Joseph — Automation Engineer">
@@ -71,9 +71,9 @@
   <meta name="twitter:image"       content="https://jubinjoseph.dev/og-image.jpg">
 
   <!-- ── Google Fonts ──────────────────────────────────────────────
-       Space Grotesk : all headings  (--font-h)
-       Inter          : all body text (--font-b)
-       ─────────────────────────────────────────────────────────── -->
+        Space Grotesk : all headings  (--font-h)
+        Inter          : all body text (--font-b)
+        ─────────────────────────────────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -84,11 +84,11 @@
 <body>
 
   <!-- ════════════════════════════════════════════════════════
-       PAGE LOADING OVERLAY
-       Covers the screen while fonts/assets load.
-       Shows the JJ. brand mark + a filling gradient bar.
-       JavaScript removes the .hidden class on window.load.
-       ════════════════════════════════════════════════════════ -->
+        PAGE LOADING OVERLAY
+        Covers the screen while fonts/assets load.
+        Shows the JJ. brand mark + a filling gradient bar.
+        JavaScript removes the .hidden class on window.load.
+        ════════════════════════════════════════════════════════ -->
   <div class="page-loader" id="pageLoader">
     <div class="loader-inner">
       <span class="loader-brand">JJ<span class="loader-dot">.</span></span>
@@ -98,11 +98,11 @@
 
 
   <!-- ════════════════════════════════════════════════════════
-       BACKGROUND LAYERS  (z-index: 0, behind everything)
-       ─ bgCanvas   : animated particle network (JS canvas)
-       ─ .aurora    : slow drifting colour blobs (CSS only)
-       ─ .grain-svg : subtle film-grain texture overlay
-       ════════════════════════════════════════════════════════ -->
+        BACKGROUND LAYERS  (z-index: 0, behind everything)
+        ─ bgCanvas   : animated particle network (JS canvas)
+        ─ .aurora    : slow drifting colour blobs (CSS only)
+        ─ .grain-svg : subtle film-grain texture overlay
+        ════════════════════════════════════════════════════════ -->
   <canvas id="bgCanvas"></canvas>
 
   <div class="aurora" aria-hidden="true">
@@ -129,11 +129,11 @@
 
 
   <!-- ════════════════════════════════════════════════════════
-       NAVIGATION BAR
-       ─ Becomes opaque (.stuck) when scrollY > 50 px
-       ─ Collapses to hamburger on mobile (< 768 px)
-       Elements: brand · nav-links · theme-toggle · hire-btn · hamburger
-       ════════════════════════════════════════════════════════ -->
+        NAVIGATION BAR
+        ─ Becomes opaque (.stuck) when scrollY > 50 px
+        ─ Collapses to hamburger on mobile (< 768 px)
+        Elements: brand · nav-links · theme-toggle · hire-btn · hamburger
+        ════════════════════════════════════════════════════════ -->
   <nav id="nav">
     <div class="nav-inner">
 
@@ -151,19 +151,19 @@
       <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle colour theme">
         <!-- Sun icon → shown in dark mode (click to switch to light) -->
         <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="4"/>
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41
-                   M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                    M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
         </svg>
         <!-- Moon icon → shown in light mode (click to switch to dark) -->
         <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       </button>
 
-      <a href="mailto:jubinjoseph2002@gmail.com" class="nav-hire magnetic">Hire me</a>
+      <a href="mailto:jubin.contact@gmail.com" class="nav-hire magnetic">Hire me</a>
 
       <button class="mob-btn" id="mobBtn" aria-label="Open menu">
         <span></span><span></span>
@@ -180,15 +180,15 @@
 
 
   <!-- ════════════════════════════════════════════════════════
-       HERO SECTION
-       Full-viewport opening section.
-       ─ .hero-chip    : availability badge with pulse dot
-       ─ .hero-name    : large display name (gradient on last name)
-       ─ .hero-role    : typewriter cycling text (edit ROLES in JS)
-       ─ .hero-sub     : short bio line
-       ─ .hero-actions : CTA buttons + social icons
-       ─ .scroll-hint  : animated scroll indicator
-       ════════════════════════════════════════════════════════ -->
+        HERO SECTION
+        Full-viewport opening section.
+        ─ .hero-chip    : availability badge with pulse dot
+        ─ .hero-name    : large display name (gradient on last name)
+        ─ .hero-role    : typewriter cycling text (edit ROLES in JS)
+        ─ .hero-sub     : short bio line
+        ─ .hero-actions : CTA buttons + social icons
+        ─ .scroll-hint  : animated scroll indicator
+        ════════════════════════════════════════════════════════ -->
   <section class="hero" id="hero">
     <div class="hero-inner">
 
@@ -216,7 +216,7 @@
         <a href="#contact" class="btn-glowing magnetic">
           Let's talk
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
           </svg>
         </a>
@@ -224,11 +224,11 @@
         <a href="#projects" class="btn-ghost magnetic">View work</a>
 
         <!-- ── CV Download ─────────────────────────────────────────
-             Place your CV PDF in this folder and update the href.
-             The `download` attribute triggers a save dialog.       -->
-        <a href="Jubin_Joseph_CV.pdf" download class="btn-cv magnetic">
+              Place your CV PDF in this folder and update the href.
+              The `download` attribute triggers a save dialog.       -->
+        <a href="https://drive.google.com/file/d/1fNtGCTUUSkAssUWY13Ra8LEBFWf0Rree/view?usp=sharing" download class="btn-cv magnetic">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
             <line x1="12" y1="15" x2="12" y2="3"/>
@@ -238,22 +238,22 @@
 
         <div class="hero-icons">
           <a href="https://github.com/Jubin02" target="_blank" rel="noopener noreferrer"
-             aria-label="GitHub" class="icon-btn magnetic">
+              aria-label="GitHub" class="icon-btn magnetic">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61
-                       c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0
-                       19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07
-                       5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37
-                       3.37 0 0 0 9 18.13V22"/>
+                        c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0
+                        19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07
+                        5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37
+                        3.37 0 0 0 9 18.13V22"/>
             </svg>
           </a>
           <a href="https://linkedin.com/in/jubin-j-173b61137" target="_blank" rel="noopener noreferrer"
-             aria-label="LinkedIn" class="icon-btn magnetic">
+              aria-label="LinkedIn" class="icon-btn magnetic">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7
-                       a6 6 0 0 1 6-6z"/>
+                        a6 6 0 0 1 6-6z"/>
               <rect x="2" y="9" width="4" height="12"/>
               <circle cx="4" cy="4" r="2"/>
             </svg>
@@ -270,12 +270,12 @@
   </section>
 
 
-  <!-- ════════════════════════════════════════════════════════
-       MARQUEE / SKILLS TICKER
-       Infinite horizontal scroll.  Content is doubled in HTML
-       for a seamless loop (CSS translateX(-50%)).
-       Edit <span> text to add / remove skills.
-       ════════════════════════════════════════════════════════ -->
+    <!-- ════════════════════════════════════════════════════════
+        MARQUEE / SKILLS TICKER
+        Infinite horizontal scroll.  Content is doubled in HTML
+        for a seamless loop (CSS translateX(-50%)).
+        Edit <span> text to add / remove skills.
+        ════════════════════════════════════════════════════════ -->
   <div class="marquee-section" aria-hidden="true">
     <div class="marquee-fade-l"></div>
     <div class="marquee-fade-r"></div>
@@ -313,16 +313,16 @@
   </div>
 
 
-  <!-- ════════════════════════════════════════════════════════
-       ABOUT  (#about)
-       Two-column grid: text left, stats right.
-       Below the grid: "Currently building" full-width card.
+    <!-- ════════════════════════════════════════════════════════
+        ABOUT  (#about)
+        Two-column grid: text left, stats right.
+        Below the grid: "Currently building" full-width card.
 
-       STAT COUNTERS
-         data-target  : number to count up to
-         data-suffix  : character appended (e.g. "+")
-         Animation fires when the card enters the viewport.
-       ════════════════════════════════════════════════════════ -->
+        STAT COUNTERS
+          data-target  : number to count up to
+          data-suffix  : character appended (e.g. "+")
+          Animation fires when the card enters the viewport.
+        ════════════════════════════════════════════════════════ -->
   <section class="section" id="about">
     <div class="container">
       <p class="sec-label reveal">01 / About</p>
@@ -364,12 +364,12 @@
         </div>
       </div>
 
-      <!-- ── Currently Building ──────────────────────────────────────
-           Update this card whenever you start a new project.
-           ─ .building-title : project / thing you're working on
-           ─ .building-desc  : one or two sentences explaining it
-           ─ .building-tags  : add / remove <span> tags freely
-           ──────────────────────────────────────────────────────── -->
+        <!-- ── Currently Building ──────────────────────────────────────
+            Update this card whenever you start a new project.
+            ─ .building-title : project / thing you're working on
+            ─ .building-desc  : one or two sentences explaining it
+            ─ .building-tags  : add / remove <span> tags freely
+            ──────────────────────────────────────────────────────── -->
       <div class="building-card glass-card reveal d4">
         <div class="building-header">
           <span class="chip-pulse"></span>
@@ -396,13 +396,13 @@
 
 
   <!-- ════════════════════════════════════════════════════════
-       EXPERIENCE  (#experience)
-       3-column card grid on desktop, 2 on tablet, 1 on mobile.
+        EXPERIENCE  (#experience)
+        3-column card grid on desktop, 2 on tablet, 1 on mobile.
 
-       TO ADD A NEW ROLE:
-       Copy one .exp-card block, paste after the last card,
-       increment .exp-num, update all the text fields.
-       ════════════════════════════════════════════════════════ -->
+        TO ADD A NEW ROLE:
+        Copy one .exp-card block, paste after the last card,
+        increment .exp-num, update all the text fields.
+        ════════════════════════════════════════════════════════ -->
   <section class="section" id="experience">
     <div class="container">
       <p class="sec-label reveal">02 / Experience</p>
@@ -459,16 +459,16 @@
 
 
   <!-- ════════════════════════════════════════════════════════
-       PROJECTS BENTO  (#projects)
-       Asymmetric grid: large card left (2fr), two stacked right (1fr).
+        PROJECTS BENTO  (#projects)
+        Asymmetric grid: large card left (2fr), two stacked right (1fr).
 
-       .bento-hero has an animated conic-gradient border using
-       the CSS Houdini @property --angle trick. Requires a modern
-       browser (Chrome 85+, Firefox 128+, Safari 16.4+).
+        .bento-hero has an animated conic-gradient border using
+        the CSS Houdini @property --angle trick. Requires a modern
+        browser (Chrome 85+, Firefox 128+, Safari 16.4+).
 
-       TO ADD MORE PROJECTS:
-       Add a new .bento-card div after the last one.
-       ════════════════════════════════════════════════════════ -->
+        TO ADD MORE PROJECTS:
+        Add a new .bento-card div after the last one.
+        ════════════════════════════════════════════════════════ -->
   <section class="section" id="projects">
     <div class="container">
       <p class="sec-label reveal">03 / Projects</p>
@@ -482,8 +482,8 @@
             <div class="btags"><span>Siemens</span><span>HVAC</span><span>BMS</span></div>
             <h3>BMS Control System Deployment</h3>
             <p>End-to-end deployment of Building Management System control logic using
-               Siemens PXCC and PXCM controllers — covering HVAC automation, live
-               commissioning, and multi-site fault troubleshooting.</p>
+                Siemens PXCC and PXCM controllers — covering HVAC automation, live
+                commissioning, and multi-site fault troubleshooting.</p>
             <p class="bento-sub">Siemens Technology &amp; Services · Professional Work</p>
           </div>
         </div>
@@ -493,11 +493,11 @@
             <div class="btags"><span>Microcontroller</span><span>Robotics</span><span>Hackathon</span></div>
             <h3>Autonomous Vehicle Prototype</h3>
             <p>Microcontroller-based autonomous navigation with sensor fusion and
-               real-time obstacle avoidance logic.</p>
+                real-time obstacle avoidance logic.</p>
             <a href="https://github.com/Jubin02" target="_blank" rel="noopener noreferrer" class="bento-link">
               View on GitHub
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
               </svg>
             </a>
@@ -509,7 +509,7 @@
             <div class="btags"><span>PLC</span><span>Allen-Bradley</span><span>Robotics</span></div>
             <h3>Robotic Assembly Automation</h3>
             <p>PLC programs for robotic systems on high-speed manufacturing lines
-               across multiple controller platforms.</p>
+                across multiple controller platforms.</p>
             <p class="bento-sub">Titan Engineering · Industry Internship</p>
           </div>
         </div>
@@ -519,11 +519,11 @@
   </section>
 
 
-  <!-- ════════════════════════════════════════════════════════
-       EDUCATION & CERTIFICATIONS  (#education)
-       Two-column grid. Stacks to one column on tablet/mobile.
-       Left: degrees  |  Right: certifications
-       ════════════════════════════════════════════════════════ -->
+    <!-- ════════════════════════════════════════════════════════
+        EDUCATION & CERTIFICATIONS  (#education)
+        Two-column grid. Stacks to one column on tablet/mobile.
+        Left: degrees  |  Right: certifications
+        ════════════════════════════════════════════════════════ -->
   <section class="section" id="education">
     <div class="container">
       <div class="edu-certs-grid">
@@ -572,18 +572,18 @@
 
 
   <!-- ════════════════════════════════════════════════════════
-       CONTACT  (#contact)
-       Two-column layout:
-       ─ Left  : heading, sub text, email link, social links
-       ─ Right : contact form (powered by Formspree)
+        CONTACT  (#contact)
+        Two-column layout:
+        ─ Left  : heading, sub text, email link, social links
+        ─ Right : contact form (powered by Formspree)
 
-       FORMSPREE SETUP:
-       1. Go to formspree.io and create a free account.
-       2. Create a new form — copy your form ID (looks like "xpwzabcd").
-       3. Paste it into FORMSPREE_ID in script3.js.
-       The form submits via fetch (no page reload).
-       Free tier: 50 submissions / month.
-       ════════════════════════════════════════════════════════ -->
+        FORMSPREE SETUP:
+        1. Go to formspree.io and create a free account.
+        2. Create a new form — copy your form ID (looks like "xpwzabcd").
+        3. Paste it into FORMSPREE_ID in script3.js.
+        The form submits via fetch (no page reload).
+        Free tier: 50 submissions / month.
+        ════════════════════════════════════════════════════════ -->
   <section class="contact-sec" id="contact">
     <div class="container">
       <p class="sec-label reveal">06 / Contact</p>
@@ -601,10 +601,10 @@
             Always happy to connect and build something great.
           </p>
           <!-- Update both the href and the visible email text if your address changes -->
-          <a href="mailto:jubinjoseph2002@gmail.com" class="contact-cta magnetic">
-            jubinjoseph2002@gmail.com
+          <a href="mailto:jubin.contact@gmail.com" class="contact-cta magnetic">
+            jubin.contact@gmail.com
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
             </svg>
           </a>
@@ -616,21 +616,21 @@
         </div>
 
         <!-- Right column: contact form
-             JS handles submission and shows status messages.
-             See script3.js → Contact Form section for the logic. -->
+              JS handles submission and shows status messages.
+              See script3.js → Contact Form section for the logic. -->
         <form class="contact-form glass-card reveal d2" id="contactForm" novalidate>
           <h3 class="form-heading">Send a message</h3>
 
           <div class="form-field">
             <label for="cfName">Name</label>
             <input type="text" id="cfName" name="name"
-                   placeholder="Your name" required autocomplete="name">
+                    placeholder="Your name" required autocomplete="name">
           </div>
 
           <div class="form-field">
             <label for="cfEmail">Email</label>
             <input type="email" id="cfEmail" name="email"
-                   placeholder="your@email.com" required autocomplete="email">
+                    placeholder="your@email.com" required autocomplete="email">
           </div>
 
           <div class="form-field">
@@ -642,7 +642,7 @@
           <button type="submit" class="form-submit" id="formSubmit">
             Send message
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
             </svg>
           </button>
@@ -657,13 +657,13 @@
 
 
   <!-- ════════════════════════════════════════════════════════
-       FOOTER
-       Three-column: copyright · live Dublin time · tagline
-       The Dublin time updates every second via JS.
-       ════════════════════════════════════════════════════════ -->
+        FOOTER
+        Three-column: copyright · live Dublin time · tagline
+        The Dublin time updates every second via JS.
+        ════════════════════════════════════════════════════════ -->
   <footer class="footer2">
     <div class="container">
-      <span>© 2025 Jubin Joseph</span>
+      <span>© 2026 Jubin Joseph</span>
       <!-- Live time — updated by JS using Europe/Dublin timezone -->
       <span class="footer-time">
         <span class="time-pulse"></span>
